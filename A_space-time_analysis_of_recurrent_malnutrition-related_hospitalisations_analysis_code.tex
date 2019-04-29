@@ -1,0 +1,681 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Analysis Code},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Analysis Code}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\subsection{Code 1 - Extract weather
+data}\label{code-1---extract-weather-data}
+
+Script for extracting MODIS vegetation indices for analysis
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1221223}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(MODIS)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(foreign)}
+\KeywordTok{library}\NormalTok{(tidyr)}
+
+\NormalTok{##read in the data with locations from KHDSS}
+\NormalTok{##  1km by 1km latitude and longitude for the 1 by 1 km locations}
+\NormalTok{## this file contains the dat[1] latitude and dat[2] longitude for the 1km by 1km locations }
+\NormalTok{dat <-}\StringTok{ }\NormalTok{foreign}\OperatorTok{::}\KeywordTok{read.dta}\NormalTok{(}\StringTok{"data/KHDSS_1km_1km.DTA"}\NormalTok{)}
+
+\CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Extract the rainfall data process_\textbackslash{}\textbackslash{}\textbackslash{}         #}
+\CommentTok{#'#'\textbackslash{}\textbackslash{}_________Starting the extract of data_______________________\textbackslash{}\textbackslash{}}
+
+
+\NormalTok{##identify the folder with the monthly  tiff data for EVI}
+\NormalTok{## the files were downloaded earlier and saved }
+\NormalTok{## https://modis.gsfc.nasa.gov/data/dataprod/mod13.php }
+\NormalTok{##https://www.rdocumentation.org/packages/MODIS/versions/1.1.5/topics/runGdal}
+
+\NormalTok{## alink that can help https://conservationecology.wordpress.com/2014/08/11/bulk-downloading-and-analysing-modis-data-in-r/}
+
+\CommentTok{#'install https://www.gdal.org/}
+\CommentTok{#'library(MODIS)}
+\CommentTok{#'runGdal(product="MOD13Q1",begin=as.Date("01/02/2002",format = "%d/%m/%Y") ,}
+\CommentTok{#'      end = as.Date("31/12/2015",format = "%d/%m/%Y"),extent="Kenya")}
+\CommentTok{#'      }
+\CommentTok{#'      'getTile("Kenya")  for tile specific}
+\CommentTok{#'        ,tileH = 21:22,tileV = 8:9 }
+\CommentTok{#'}
+
+\CommentTok{#'(this process takes some time and needs 30 GB of space free to generate data for the whole admission period}
+\NormalTok{vi <-}\StringTok{ }\KeywordTok{preStack}\NormalTok{(}\DataTypeTok{path =} \StringTok{"modis/monthly_data/"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"*.tif$"}\NormalTok{)}
+
+\NormalTok{### stack the data to data frame}
+\NormalTok{s <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(vi)}
+\NormalTok{s <-}\StringTok{  }\NormalTok{s }\OperatorTok{*}\StringTok{ }\FloatTok{0.0001} \CommentTok{# Rescale the downloaded Files with the scaling factor (from modis) EVI}
+
+\CommentTok{#'#'\textbackslash{}\textbackslash{}_________extracting for the 1km by 1km data_________\textbackslash{}\textbackslash{}}
+\CommentTok{# And extract the mean value for our point from before.}
+\CommentTok{# First Transform our coordinates from lat-long to to the MODIS sinus Projection}
+\NormalTok{## method='bilinear' used for extraction }
+\NormalTok{## If 'simple' values for the cell a point falls in are returned.}
+\NormalTok{## If 'bilinear' the returned values are interpolated from the values of the four nearest raster cells.}
+
+\NormalTok{sp <-}\StringTok{  }\KeywordTok{SpatialPoints}\NormalTok{(}\DataTypeTok{coords =} \KeywordTok{cbind}\NormalTok{(dat[}\DecValTok{2}\NormalTok{], dat[}\DecValTok{1}\NormalTok{]),}
+    \DataTypeTok{proj4string =} \KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84"}\NormalTok{) )}
+\NormalTok{sp <-}\StringTok{ }\KeywordTok{spTransform}\NormalTok{(sp, }\KeywordTok{CRS}\NormalTok{(}\KeywordTok{proj4string}\NormalTok{(s)))}
+\NormalTok{dataExtract <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\KeywordTok{extract}\NormalTok{(s, sp , }\DataTypeTok{df=}\NormalTok{T, }\DataTypeTok{method=}\StringTok{"bilinear"}\NormalTok{) }\CommentTok{# Extract the EVI}
+\KeywordTok{write.csv}\NormalTok{(dataExtract , }\StringTok{"data/modis_data_2001_2015.csv"}\NormalTok{)}
+
+\CommentTok{#'@_______________________________________________________________}
+\CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_End Extract data process_\textbackslash{}\textbackslash{}\textbackslash{}         #}
+\CommentTok{#'         }
+
+
+\NormalTok{####}
+\CommentTok{#'#'\textbackslash{}\textbackslash{}_________Extracting the rainfall data_________\textbackslash{}\textbackslash{}}
+\NormalTok{###Extracting the rainfall data}
+\NormalTok{##identify the folder with the monthly  tiff data for EVI}
+\NormalTok{vi2 <-}\StringTok{ }\KeywordTok{preStack}\NormalTok{(}\DataTypeTok{path =} \StringTok{"modis/rainfall/"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"resampledchirps-v2.0.20*"}\NormalTok{)}
+
+\NormalTok{### stack the data to data frame}
+\NormalTok{si2 <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(vi2)}
+
+\CommentTok{#'#'\textbackslash{}\textbackslash{}_________extracting for the admissions data_________\textbackslash{}\textbackslash{}}
+\NormalTok{sp2_b <-}\StringTok{  }\KeywordTok{SpatialPoints}\NormalTok{(}\DataTypeTok{coords =} \KeywordTok{cbind}\NormalTok{(dat[}\DecValTok{2}\NormalTok{], dat[}\DecValTok{1}\NormalTok{]),}
+                        \DataTypeTok{proj4string =} \KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84"}\NormalTok{))}
+\NormalTok{sp2_b <-}\StringTok{ }\KeywordTok{spTransform}\NormalTok{(sp2_b, }\KeywordTok{CRS}\NormalTok{(}\KeywordTok{proj4string}\NormalTok{(si2)))}
+\NormalTok{dataExtractAdm2 <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\KeywordTok{extract}\NormalTok{(si2, sp2_b , }\DataTypeTok{df=}\NormalTok{T, }\DataTypeTok{method=}\StringTok{"bilinear"}\NormalTok{) }\CommentTok{# Extract the rainfall}
+\KeywordTok{write.csv}\NormalTok{(dataExtractAdm2 , }\StringTok{"dataExtractADM_rainfall.csv"}\NormalTok{)}
+\CommentTok{#'@_______________________________________________________________}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Code 2: INLA Spatial Temproral
+Models}\label{code-2-inla-spatial-temproral-models}
+
+This code is for running INLA Spatial models
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1221223}\NormalTok{)}
+  \KeywordTok{rm}\NormalTok{(}\DataTypeTok{list =} \KeywordTok{ls}\NormalTok{())}
+
+  \KeywordTok{library}\NormalTok{(R2WinBUGS)}
+\NormalTok{  ##Mapping}
+  \KeywordTok{library}\NormalTok{(rgeos)}
+  \KeywordTok{library}\NormalTok{(maptools)}
+  \KeywordTok{library}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+  \KeywordTok{library}\NormalTok{(broom) ## for converting a map to a data frame}
+  \CommentTok{#library(glm2)}
+  \CommentTok{#library(ResourceSelection) ## for hosmer and lemeshow testing}
+  \KeywordTok{library}\NormalTok{(dplyr)}
+  \KeywordTok{library}\NormalTok{(INLA)}
+  \KeywordTok{library}\NormalTok{(spdep)}
+\NormalTok{  ## coloring the spplot}
+  \KeywordTok{library}\NormalTok{(colorspace)}
+
+\NormalTok{  ###reading and exporting the shape file}
+\NormalTok{  ## shape file available upon request}
+\NormalTok{  kilifi_sub <-}\StringTok{ }\NormalTok{maptools}\OperatorTok{::}\KeywordTok{readShapePoly}\NormalTok{ ( }\StringTok{"data/kilif_sub_loc_Shape/DSS_subloc_Arc.shp"}\NormalTok{,}
+                                          \DataTypeTok{IDvar=}\StringTok{"Adj_ID"}\NormalTok{, }\DataTypeTok{proj4string=}\KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +ellps=clrk66"}\NormalTok{))}
+  
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{spdep}\OperatorTok{::}\KeywordTok{poly2nb}\NormalTok{(kilifi_sub)}
+  \KeywordTok{nb2INLA}\NormalTok{(}\StringTok{"data/kilif_sub_loc_Shape/DSS_subloc_Arc.graph"}\NormalTok{, temp)}
+\NormalTok{  klf.adj <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\KeywordTok{getwd}\NormalTok{(),}\StringTok{"/data/kilif_sub_loc_Shape/DSS_subloc_Arc.graph"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+  
+\NormalTok{  ### load the admissions data}
+\NormalTok{  ## data available upon request}
+\NormalTok{  admData <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/morbidity.csv"}\NormalTok{)}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{rain_mm <-}\StringTok{ }\NormalTok{admData}\OperatorTok{$}\NormalTok{rain_mm}\OperatorTok{/}\DecValTok{50}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{severe_disease <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(admData}\OperatorTok{$}\NormalTok{severe_disease , }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{  admData <-}\StringTok{ }\NormalTok{admData }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gender2=} \KeywordTok{ifelse}\NormalTok{(gender}\OperatorTok{==}\DecValTok{1}\NormalTok{ ,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{ ))}
+
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{gender2 <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(admData}\OperatorTok{$}\NormalTok{gender2 , }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{) )}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{gender <-}\StringTok{ }\NormalTok{admData}\OperatorTok{$}\NormalTok{gender2}
+\NormalTok{  admData2 <-}\StringTok{ }\NormalTok{admData }\OperatorTok{%>%}\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(Adj_ID , sublocation,mnth, nagem, gender , }
+\NormalTok{                                         severe_disease ,}
+\NormalTok{                                  cumulitive_count,cumulitive_time , EVI_VALUE ,count_adm ,rain_mm,}
+\NormalTok{                                  total_admission ,admdays ,nweight ,yr)}
+  
+\NormalTok{  ###generate othe variables to be used within INLa}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{Adj_ID2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{Adj_ID3 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm3 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm4 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm5 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm6 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm7 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{EVI_VALUE2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{EVI_VALUE}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{rain_mm2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{rain_mm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{nagem2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{nagem}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{severe_disease2 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{severe_disease)}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{mnth2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{mnth}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{nweight2 <-}\StringTok{   }\NormalTok{admData2}\OperatorTok{$}\NormalTok{nweight}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{admdays2 <-}\StringTok{   }\NormalTok{admData2}\OperatorTok{$}\NormalTok{admdays}
+  
+\NormalTok{  ###defining the priors}
+\NormalTok{  prior.iid =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{0.01}\NormalTok{)}
+\NormalTok{  prior.besag =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{0.001}\NormalTok{)}
+\NormalTok{  initial.iid =}\StringTok{ }\DecValTok{4}
+\NormalTok{  initial.besag =}\StringTok{ }\DecValTok{3}
+
+  \CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Model_1_\textbackslash{}\textbackslash{}\textbackslash{}         #  }
+\NormalTok{###############MOdel 1 #######################################################    }
+\NormalTok{  ## spatial unstructured}
+\NormalTok{  formulaUH0 <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{ }\NormalTok{EVI_VALUE }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm  }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }\NormalTok{severe_disease }\OperatorTok{+}
+\StringTok{    }\NormalTok{total_admission  }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{    }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"iid"}\NormalTok{,}\DataTypeTok{prior=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.001}\NormalTok{) , }\DataTypeTok{initial =} \DecValTok{1}\NormalTok{)}
+  
+\NormalTok{  resultUH0 <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(formulaUH0,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                   \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{cpo=}\OtherTok{TRUE}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem) ,}
+                   \DataTypeTok{control.predictor =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{compute =} \OtherTok{TRUE}\NormalTok{))}
+  
+\NormalTok{##summary in 3 decimal places}
+  \KeywordTok{summary}\NormalTok{(resultUH0)}
+  \KeywordTok{exp}\NormalTok{(resultUH0}\OperatorTok{$}\NormalTok{summary.fixed)}
+  \KeywordTok{write.csv}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(resultUH0}\OperatorTok{$}\NormalTok{summary.fixed), }\StringTok{"results1_14504_36.csv"}\NormalTok{)}
+  
+\NormalTok{pdresultUH0 <-}\StringTok{ }\NormalTok{resultUH0}\OperatorTok{$}\NormalTok{dic}\OperatorTok{$}\NormalTok{p.eff}
+  
+
+ \CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Model_1_\textbackslash{}\textbackslash{}\textbackslash{}         #  }
+ \CommentTok{#'         #}
+  
+  \CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Model 1B\textbackslash{}\textbackslash{}\textbackslash{}         #  }
+\NormalTok{  ###############MOdel 1B#######################################################  }
+\NormalTok{  ### spatial model structured and unstrustured  without }
+\NormalTok{  ### to comapare with Winbugs}
+\NormalTok{  formulaUHB <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{ }\NormalTok{EVI_VALUE }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm   }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }\NormalTok{severe_disease }\OperatorTok{+}
+\StringTok{    }\NormalTok{total_admission }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{    }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}
+      \DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.0111}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+                 \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.0011}\NormalTok{,}\FloatTok{0.001}\NormalTok{)))) }
+  
+
+\NormalTok{  resultUHB <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(formulaUHB,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                   \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{cpo=}\OtherTok{TRUE}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem)}
+\NormalTok{                   ,}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{))}
+  \KeywordTok{summary}\NormalTok{(resultUHB)}
+\NormalTok{  pdresultUHB <-}\StringTok{ }\NormalTok{resultUHB}\OperatorTok{$}\NormalTok{dic}\OperatorTok{$}\NormalTok{p.eff }\CommentTok{#25.03}
+  \KeywordTok{exp}\NormalTok{(resultUHB}\OperatorTok{$}\NormalTok{summary.fixed)}
+  \KeywordTok{write.csv}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(resultUHB}\OperatorTok{$}\NormalTok{summary.fixed), }\StringTok{"results2_14498.08.csv"}\NormalTok{)}
+  
+  \CommentTok{#write.csv(data.frame(resultUHB$summary.fixed), "results_20.05_under5_10700.63.csv")}
+  
+\NormalTok{  ####The   computation of the posterior mean for the random effects ð is performed in two}
+  \CommentTok{# steps as we have more than one parameter:}
+  \CommentTok{# we extract the marginal posterior distribution for each element of the random effect}
+\NormalTok{  csi <-}\StringTok{ }\NormalTok{resultUHB}\OperatorTok{$}\NormalTok{marginals.random}\OperatorTok{$}\NormalTok{Adj_ID[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{]}
+  
+\NormalTok{  ## then apply the exponential transformation and calculate the posterior mean for each of   them using the lapply function.}
+\NormalTok{  zeta <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(csi,}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{inla.emarginal}\NormalTok{(exp,x))}
+\NormalTok{  ##define the cut offs for your risk ratio}
+\NormalTok{  zeta.cutoff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.9}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.999}\NormalTok{ ,}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.01}\NormalTok{,}\FloatTok{1.05}\NormalTok{, }\FloatTok{1.1}\NormalTok{)}
+  
+  \CommentTok{#Transform zeta in categorical variable}
+\NormalTok{  cat.zeta <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(}\KeywordTok{unlist}\NormalTok{(zeta),}\DataTypeTok{breaks=}\NormalTok{zeta.cutoff,}
+                  \DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{ )}
+  
+  \CommentTok{#Create a dataframe with all the information needed for the map}
+\NormalTok{  maps.cat.zeta <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{unique}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{Adj_ID), }\DataTypeTok{cat.zeta=}\NormalTok{cat.zeta)}
+  
+  \CommentTok{#Add the categorized zeta to the kilifi spatial polygon}
+\NormalTok{  ## }
+\NormalTok{  data.kilifi <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+  \KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(data.kilifi, maps.cat.zeta,}
+                                    \DataTypeTok{by.x=}\StringTok{"Adj_ID"}\NormalTok{ , }\DataTypeTok{by.y=}\StringTok{"unique.admData2.Adj_ID."}\NormalTok{)}
+  
+\NormalTok{  ## mapping the risk ratio }
+  \CommentTok{#spplot(obj=kilifi_sub, zcol= "cat.zeta", col.regions=gray(seq(0.9,0.1,length=4)), asp=1)}
+  \KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=} \StringTok{"cat.zeta"}\NormalTok{,}\DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{), }\DataTypeTok{scales=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{draw =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{asp=}\DecValTok{1}\NormalTok{)}
+  
+  
+\CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Model 2\textbackslash{}\textbackslash{}\textbackslash{}         #  }
+\NormalTok{###############MOdel 2#######################################################  }
+\NormalTok{### spatial model structured and unstrustured  with the temporal component included}
+\NormalTok{### fitting model 1 }
+\NormalTok{admData2}\OperatorTok{$}\NormalTok{nagem_int <-}\StringTok{ }\KeywordTok{as.integer}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{nagem)}
+  
+\NormalTok{formulaUH <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{ }\NormalTok{EVI_VALUE }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm   }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }\NormalTok{severe_disease }\OperatorTok{+}\StringTok{ }\NormalTok{total_admission }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{    }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.0111}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+                 \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.0011}\NormalTok{,}\FloatTok{0.001}\NormalTok{)))) }\OperatorTok{+}\StringTok{ }\KeywordTok{f}\NormalTok{(count_adm, }\DataTypeTok{model =} \StringTok{"ar1"}\NormalTok{)}
+  
+\CommentTok{# f(count_adm, model = "ar1", replicate = Adj_ID3)}
+\NormalTok{resultUH <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(formulaUH,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                 \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{cpo=}\OtherTok{TRUE}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem_int)}
+\NormalTok{                 ,}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(resultUH)}
+\NormalTok{pdresultUH <-}\StringTok{ }\NormalTok{resultUH}\OperatorTok{$}\NormalTok{dic}\OperatorTok{$}\NormalTok{p.eff }\CommentTok{#35.50}
+\KeywordTok{exp}\NormalTok{(resultUH}\OperatorTok{$}\NormalTok{summary.fixed)}
+\KeywordTok{write.csv}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(resultUH}\OperatorTok{$}\NormalTok{summary.fixed), }\StringTok{"nm_results2_13640.2.csv"}\NormalTok{)}
+
+
+\NormalTok{####The   computation of the posterior mean for the random effects ð is performed in two}
+\CommentTok{# steps as we have more than one parameter:}
+\CommentTok{# we extract the marginal posterior distribution for each element of the random effect}
+\NormalTok{csi <-}\StringTok{ }\NormalTok{resultUH}\OperatorTok{$}\NormalTok{marginals.random}\OperatorTok{$}\NormalTok{Adj_ID[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{]}
+
+\NormalTok{## then apply the exponential transformation and calculate the posterior mean for each of   them using the lapply function.}
+\NormalTok{zeta <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(csi,}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{inla.emarginal}\NormalTok{(exp,x))}
+\NormalTok{##define the cut offs for your risk ratio}
+\NormalTok{zeta.cutoff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.83}\NormalTok{,}\FloatTok{0.9}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.999}\NormalTok{ ,}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.01}\NormalTok{,}\FloatTok{1.05}\NormalTok{, }\FloatTok{1.1}\NormalTok{ ,}\FloatTok{1.2}\NormalTok{)}
+
+\CommentTok{#Transform zeta in categorical variable}
+\NormalTok{cat.zeta <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(}\KeywordTok{unlist}\NormalTok{(zeta),}\DataTypeTok{breaks=}\NormalTok{zeta.cutoff,}
+                \DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{ )}
+
+\CommentTok{#Create a dataframe with all the information needed for the map}
+\NormalTok{maps.cat.zeta <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{unique}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{Adj_ID), }\DataTypeTok{cat.zeta=}\NormalTok{cat.zeta)}
+
+\CommentTok{#Add the categorized zeta to the kilifi spatial polygon}
+\NormalTok{## }
+\NormalTok{data.kilifi <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(data.kilifi, maps.cat.zeta,}
+                                  \DataTypeTok{by.x=}\StringTok{"Adj_ID"}\NormalTok{ , }\DataTypeTok{by.y=}\StringTok{"unique.admData2.Adj_ID."}\NormalTok{)}
+
+\NormalTok{## mapping the risk ratio }
+
+\KeywordTok{png}\NormalTok{(}\DataTypeTok{filename=}\KeywordTok{paste0}\NormalTok{(}\StringTok{"figure4A"}\NormalTok{,}\StringTok{"img.png"}\NormalTok{) , }\DataTypeTok{width =} \FloatTok{19.45}\NormalTok{ , }\DataTypeTok{height =}  \FloatTok{22.40}\NormalTok{ , }\DataTypeTok{units =} \StringTok{"cm"}\NormalTok{ , }\DataTypeTok{res=}\DecValTok{300}\NormalTok{)}
+
+\KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=} \StringTok{"cat.zeta"}\NormalTok{,}\DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{), }\DataTypeTok{scales=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{draw =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{asp=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{dev.off}\NormalTok{()}
+
+\NormalTok{### temporal graph}
+
+\KeywordTok{plot}\NormalTok{( resultUH, }\DataTypeTok{plot.fixed.effects =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{constant=}\OtherTok{FALSE}\NormalTok{,}
+      \DataTypeTok{plot.lincomb =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.random.effects =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.hyperparameters =} \OtherTok{TRUE}\NormalTok{,}
+      \DataTypeTok{plot.predictor =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.q =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.cpo =} \OtherTok{TRUE}\NormalTok{,}
+      \DataTypeTok{single =} \OtherTok{TRUE}\NormalTok{)}
+
+  \KeywordTok{plot}\NormalTok{( resultUH, }\DataTypeTok{plot.fixed.effects =} \OtherTok{TRUE}\NormalTok{ , }\DataTypeTok{constant=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{plot.cpo =}\NormalTok{ F,}\DataTypeTok{single =}\NormalTok{F)}
+  
+\KeywordTok{save.image}\NormalTok{(}\StringTok{"stModel.RDA"}\NormalTok{)  }
+
+\CommentTok{#'         \textbackslash{}\textbackslash{}\textbackslash{}_Model 3\textbackslash{}\textbackslash{}\textbackslash{}         #}
+\CommentTok{#'         ###############MOdel With variables changing over time#######################################################  }
+\NormalTok{#### Fitting a SPATIAL Temporal Model}
+\NormalTok{formulaUH2b <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{  }\NormalTok{EVI_VALUE  }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{severe_disease }\OperatorTok{+}\StringTok{ }\NormalTok{total_admission }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.001}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+               \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.01}\NormalTok{))))}\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{f}\NormalTok{(EVI_VALUE2 , count_adm2, }\DataTypeTok{model =} \StringTok{"iid"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(rain_mm2 , count_adm3, }\DataTypeTok{model =} \StringTok{"iid"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(nweight2 , count_adm5, }\DataTypeTok{model =} \StringTok{"iid"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(admdays2 , count_adm6, }\DataTypeTok{model =} \StringTok{"iid"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{( count_adm7, }\DataTypeTok{model =} \StringTok{"ar1"}\NormalTok{)}
+
+\NormalTok{### added due to heissan values errors }
+\NormalTok{##https://groups.google.com/forum/#!topic/r-inla-discussion-group/rTdjAnILdnM}
+\NormalTok{resultUH2b <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(formulaUH2b,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                   \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{),}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{) ,}
+                   \DataTypeTok{control.inla =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{tolerance =} \FloatTok{1e-20}\NormalTok{, }\DataTypeTok{h =} \FloatTok{1e-08}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem))}
+\NormalTok{pdresultH2 <-}\StringTok{ }\NormalTok{resultUH2b}\OperatorTok{$}\NormalTok{dic}\OperatorTok{$}\NormalTok{p.eff }\CommentTok{#447.2864}
+
+
+\KeywordTok{summary}\NormalTok{(resultUH2b)}
+\NormalTok{pdresultUH2b <-}\StringTok{ }\NormalTok{resultUH2b}\OperatorTok{$}\NormalTok{dic}\OperatorTok{$}\NormalTok{p.eff}
+\KeywordTok{write.csv}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(resultUH2b}\OperatorTok{$}\NormalTok{summary.fixed), }\StringTok{"resultsST_10296.73.csv"}\NormalTok{)}
+
+\NormalTok{csi2 <-}\StringTok{ }\NormalTok{resultUH2b}\OperatorTok{$}\NormalTok{marginals.random}\OperatorTok{$}\NormalTok{Adj_ID[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{]}
+
+\NormalTok{## then apply the exponential transformation and calculate the posterior mean for each of   them using the lapply function.}
+\NormalTok{zeta2 <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(csi2,}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{inla.emarginal}\NormalTok{(exp,x))}
+
+\NormalTok{##define the cut offs for your risk ratio}
+\NormalTok{zeta.cutoff2 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.8}\NormalTok{,}\FloatTok{0.99}\NormalTok{, }\FloatTok{1.0}\NormalTok{,}\FloatTok{1.001}\NormalTok{,}\FloatTok{1.1}\NormalTok{, }\FloatTok{1.2}\NormalTok{)}
+
+
+\CommentTok{#Transform zeta in categorical variable}
+\NormalTok{cat.zeta2 <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(}\KeywordTok{unlist}\NormalTok{(zeta2),}\DataTypeTok{breaks=}\NormalTok{zeta.cutoff2,}
+                \DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#Create a dataframe with all the information needed for the map}
+\NormalTok{maps.cat.zeta2 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{unique}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{Adj_ID), }\DataTypeTok{cat.zeta2=}\NormalTok{cat.zeta2)}
+
+\CommentTok{#Add the categorized zeta to the kilifi spatial polygon}
+\NormalTok{## }
+\NormalTok{data.kilifi2 <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(data.kilifi2, maps.cat.zeta2,}
+                                  \DataTypeTok{by.x=}\StringTok{"Adj_ID"}\NormalTok{ , }\DataTypeTok{by.y=}\StringTok{"unique.admData2.Adj_ID."}\NormalTok{)}
+
+\NormalTok{## mapping the risk ratio }
+\KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=} \StringTok{"cat.zeta2"}\NormalTok{,}\DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{), }\DataTypeTok{scales=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{draw =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{asp=}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{### temporal graph}
+\KeywordTok{plot}\NormalTok{( resultUH2b, }\DataTypeTok{plot.fixed.effects =} \OtherTok{TRUE}\NormalTok{ , }\DataTypeTok{constant=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{plot.cpo =}\NormalTok{ F,}\DataTypeTok{single =}\NormalTok{F)}
+\KeywordTok{plot}\NormalTok{( resultUH2b, }\DataTypeTok{plot.fixed.effects =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{constant=}\OtherTok{FALSE}\NormalTok{,}
+      \DataTypeTok{plot.lincomb =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.random.effects =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.hyperparameters =} \OtherTok{TRUE}\NormalTok{,}
+      \DataTypeTok{plot.predictor =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.q =} \OtherTok{TRUE}\NormalTok{, }
+      \DataTypeTok{plot.cpo =} \OtherTok{TRUE}\NormalTok{,}
+      \DataTypeTok{single =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Code 3: Temporal graphs for Spatial
+Temporal}\label{code-3-temporal-graphs-for-spatial-temporal}
+
+This code is for plotting the temporal graphs for the repeated
+admission,we fit the model in a loop for each admission and also as a
+temporal effect on INLA
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{### this is a loop fitting a model for each admission count and saving the graph for each admisison count }
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \KeywordTok{unique}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{count_adm)) \{}
+  \KeywordTok{rm}\NormalTok{(}\DataTypeTok{list =} \KeywordTok{ls}\NormalTok{())}
+\NormalTok{  ###reading and exporting the shape file}
+\NormalTok{  kilifi_sub <-}\StringTok{ }\NormalTok{maptools}\OperatorTok{::}\KeywordTok{readShapePoly}\NormalTok{ ( }\StringTok{"data/kilif_sub_loc_Shape/DSS_subloc_Arc.shp"}\NormalTok{,}
+                                          \DataTypeTok{IDvar=}\StringTok{"Adj_ID"}\NormalTok{, }\DataTypeTok{proj4string=}\KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +ellps=clrk66"}\NormalTok{))}
+  
+\NormalTok{  temp <-}\StringTok{ }\NormalTok{spdep}\OperatorTok{::}\KeywordTok{poly2nb}\NormalTok{(kilifi_sub)}
+  \KeywordTok{nb2INLA}\NormalTok{(}\StringTok{"data/kilif_sub_loc_Shape/DSS_subloc_Arc.graph"}\NormalTok{, temp)}
+\NormalTok{  klf.adj <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\KeywordTok{getwd}\NormalTok{(),}\StringTok{"/data/kilif_sub_loc_Shape/DSS_subloc_Arc.graph"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+  
+\NormalTok{  ### load the admissions data}
+\NormalTok{  admData <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/morbidity.csv"}\NormalTok{)}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{rain_mm <-}\StringTok{ }\NormalTok{admData}\OperatorTok{$}\NormalTok{rain_mm}\OperatorTok{/}\DecValTok{50}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{severe_disease <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(admData}\OperatorTok{$}\NormalTok{severe_disease , }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{  admData <-}\StringTok{ }\NormalTok{admData }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gender2=} \KeywordTok{ifelse}\NormalTok{(gender}\OperatorTok{==}\DecValTok{1}\NormalTok{ ,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{ ))}
+  
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{gender2 <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(admData}\OperatorTok{$}\NormalTok{gender2 , }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{) )}
+\NormalTok{  admData}\OperatorTok{$}\NormalTok{gender <-}\StringTok{ }\NormalTok{admData}\OperatorTok{$}\NormalTok{gender2}
+\NormalTok{  admData2 <-}\StringTok{ }\NormalTok{admData }\OperatorTok{%>%}\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(Adj_ID , sublocation,mnth, nagem, gender , }
+\NormalTok{                                         severe_disease ,}
+\NormalTok{                                         cumulitive_count,cumulitive_time , EVI_VALUE ,count_adm ,rain_mm,}
+\NormalTok{                                         total_admission ,admdays ,nweight ,yr)}
+  
+\NormalTok{  ###}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{Adj_ID2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{Adj_ID3 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm3 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm4 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm5 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm6 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{count_adm7 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{EVI_VALUE2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{EVI_VALUE}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{rain_mm2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{rain_mm}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{nagem2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{nagem}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{severe_disease2 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{severe_disease)}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{mnth2 <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{mnth}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{nweight2 <-}\StringTok{   }\NormalTok{admData2}\OperatorTok{$}\NormalTok{nweight}
+\NormalTok{  admData2}\OperatorTok{$}\NormalTok{admdays2 <-}\StringTok{   }\NormalTok{admData2}\OperatorTok{$}\NormalTok{admdays}
+  
+  
+\NormalTok{  admData2x <-}\StringTok{ }\NormalTok{admData2 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(count_adm}\OperatorTok{==}\NormalTok{i)}
+\NormalTok{  formulaUH <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{ }\NormalTok{EVI_VALUE }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm   }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{gender }\OperatorTok{+}\StringTok{ }\NormalTok{severe_disease }\OperatorTok{+}\StringTok{ }\NormalTok{total_admission }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+               \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{0.001}\NormalTok{)))) }
+
+\CommentTok{# f(count_adm, model = "ar1", replicate = Adj_ID3)}
+\NormalTok{  resultUH <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(formulaUH,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                 \DataTypeTok{data=}\NormalTok{admData2x, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{cpo=}\OtherTok{TRUE}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem)}
+\NormalTok{                 ,}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{))}
+
+\CommentTok{#summary(resultUH)}
+
+\CommentTok{#exp(resultUH$summary.fixed)}
+  \KeywordTok{write.csv}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{exp}\NormalTok{(resultUH}\OperatorTok{$}\NormalTok{summary.fixed)), }\KeywordTok{paste0}\NormalTok{(i,}\StringTok{"_results2_10504.53.csv"}\NormalTok{))}
+\NormalTok{####The   computation of the posterior mean for the random effects ð is performed in two}
+\CommentTok{# steps as we have more than one parameter:}
+\CommentTok{# we extract the marginal posterior distribution for each element of the random effect}
+\NormalTok{csi <-}\StringTok{ }\NormalTok{resultUH}\OperatorTok{$}\NormalTok{marginals.random}\OperatorTok{$}\NormalTok{Adj_ID[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{]}
+
+\NormalTok{## then apply the exponential transformation and calculate the posterior mean for each of   them using the lapply function.}
+\NormalTok{zeta <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(csi,}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{inla.emarginal}\NormalTok{(exp,x))}
+\NormalTok{##define the cut offs for your risk ratio}
+\NormalTok{zeta.cutoff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.9}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.999}\NormalTok{ ,}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.01}\NormalTok{,}\FloatTok{1.05}\NormalTok{, }\FloatTok{1.1}\NormalTok{)}
+
+\CommentTok{#Transform zeta in categorical variable}
+\NormalTok{cat.zeta <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(}\KeywordTok{unlist}\NormalTok{(zeta),}\DataTypeTok{breaks=}\NormalTok{zeta.cutoff,}
+                \DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{ )}
+
+\CommentTok{#Create a dataframe with all the information needed for the map}
+\NormalTok{maps.cat.zeta <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{unique}\NormalTok{(admData2}\OperatorTok{$}\NormalTok{Adj_ID), }\DataTypeTok{cat.zeta=}\NormalTok{cat.zeta)}
+
+\CommentTok{#Add the categorized zeta to the kilifi spatial polygon}
+\NormalTok{## }
+\NormalTok{data.kilifi <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(data.kilifi, maps.cat.zeta,}
+                                  \DataTypeTok{by.x=}\StringTok{"Adj_ID"}\NormalTok{ , }\DataTypeTok{by.y=}\StringTok{"unique.admData2.Adj_ID."}\NormalTok{)}
+
+\NormalTok{## mapping the risk ratio }
+\KeywordTok{png}\NormalTok{(}\DataTypeTok{filename=}\KeywordTok{paste0}\NormalTok{(}\StringTok{"temp_"}\NormalTok{, i,}\StringTok{"_count.png"}\NormalTok{) , }\DataTypeTok{width =} \FloatTok{15.47}\NormalTok{ , }\DataTypeTok{height =} \FloatTok{17.57}\NormalTok{ , }\DataTypeTok{units =} \StringTok{"cm"}\NormalTok{ , }\DataTypeTok{res=}\DecValTok{72}\NormalTok{)}
+\KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=} \StringTok{"cat.zeta"}\NormalTok{,}\DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{), }\DataTypeTok{scales=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{draw =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{asp=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{dev.off}\NormalTok{()}
+\NormalTok{\}}
+
+
+\NormalTok{## here we fit an AR1 model with INLA and extract the plots for each timepoint}
+\NormalTok{## allow for an interaction between space and time,}
+\CommentTok{#which would explain differences in the time trend of malnutrition related admissions for different areas,}
+\NormalTok{### Type III interaction - used in this paper to report}
+\NormalTok{##Type III combines the unstructured temporal effect ????t and the spatially structured main effect ui}
+
+\NormalTok{ID.area.int <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{ID.year.int <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{temporalModel3 <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{  }\NormalTok{EVI_VALUE  }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{severe_disease }\OperatorTok{+}\StringTok{  }\NormalTok{rain_mm }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.001}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+               \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.01}\NormalTok{)))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{( count_adm, }\DataTypeTok{model =} \StringTok{"ar1"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{f}\NormalTok{(ID.year.int,}\DataTypeTok{model=}\StringTok{"iid"}\NormalTok{, }\DataTypeTok{group=}\NormalTok{ID.area.int,}
+                                   \DataTypeTok{control.group=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\StringTok{"besag"}\NormalTok{,}
+                                                      \DataTypeTok{graph=}\NormalTok{klf.adj))}
+
+\NormalTok{result_tM3 <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(temporalModel3,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                   \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{),}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{) ,}
+                   \DataTypeTok{control.inla =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{tolerance =} \FloatTok{1e-20}\NormalTok{, }\DataTypeTok{h =} \FloatTok{1e-08}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem_int))}
+
+
+\NormalTok{delta.intIII <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{delta=}\KeywordTok{exp}\NormalTok{(result_tM3}\OperatorTok{$}\NormalTok{summary.random}\OperatorTok{$}\NormalTok{ID.year.int[,}\DecValTok{2}\NormalTok{]),}\DataTypeTok{tempC=}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{11}\NormalTok{, }\DataTypeTok{each =} \DecValTok{40}\NormalTok{),}
+                           \DataTypeTok{ID.area=}\NormalTok{result_tM3}\OperatorTok{$}\NormalTok{summary.random}\OperatorTok{$}\NormalTok{ID.year.int[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{delta.intIII.matrix <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(delta.intIII[,}\DecValTok{1}\NormalTok{], }\DecValTok{40}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(delta.intIII.matrix)<-}\StringTok{ }\NormalTok{delta.intIII[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{,}\DecValTok{3}\NormalTok{]}
+
+\KeywordTok{save.image}\NormalTok{(}\StringTok{"st_model3.RDA"}\NormalTok{)}
+
+
+\NormalTok{cutoff.interaction <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.50}\NormalTok{,}\FloatTok{0.880}\NormalTok{, }\FloatTok{1.0}\NormalTok{, }\FloatTok{1.3}\NormalTok{,}\FloatTok{1.9}\NormalTok{,}\FloatTok{2.5}\NormalTok{,}\FloatTok{3.4}\NormalTok{,}\FloatTok{7.4}\NormalTok{)}
+\NormalTok{data.klf <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+\NormalTok{delta.intIII.factor <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{NAME=}\NormalTok{data.klf}\OperatorTok{$}\NormalTok{Adj_ID)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{11}\NormalTok{)\{}
+\NormalTok{  delta.factor.temp <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(delta.intIII.matrix[,i],}\DataTypeTok{breaks=}\NormalTok{cutoff.interaction,}\DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{ ) }
+\NormalTok{  delta.intIII.factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(delta.intIII.factor,delta.factor.temp)}
+\NormalTok{\}}
+\KeywordTok{colnames}\NormalTok{(delta.intIII.factor)<-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{,}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{))}
+
+\CommentTok{# *** Code for Figure 7.6}
+\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(data.klf,  }\DataTypeTok{intIII=}\NormalTok{delta.intIII.factor)}
+\KeywordTok{trellis.par.set}\NormalTok{(}\DataTypeTok{axis.line=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{col=}\OtherTok{NA}\NormalTok{))}
+
+\KeywordTok{png}\NormalTok{(}\DataTypeTok{filename=}\KeywordTok{paste0}\NormalTok{(}\StringTok{"temp_"}\NormalTok{,}\StringTok{"img.png"}\NormalTok{) , }\DataTypeTok{width =} \FloatTok{25.47}\NormalTok{ , }\DataTypeTok{height =} \FloatTok{27.57}\NormalTok{ , }\DataTypeTok{units =} \StringTok{"cm"}\NormalTok{ , }\DataTypeTok{res=}\DecValTok{300}\NormalTok{)}
+
+\KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=}\KeywordTok{c}\NormalTok{(}\StringTok{"intIII.1"}\NormalTok{,}\StringTok{"intIII.2"}\NormalTok{,}\StringTok{"intIII.3"}\NormalTok{,}
+                              \StringTok{"intIII.4"}\NormalTok{, }\StringTok{"intIII.5"}\NormalTok{,}\StringTok{"intIII.6"}\NormalTok{,}
+                              \StringTok{"intIII.7"}\NormalTok{, }\StringTok{"intIII.8"}\NormalTok{,}\StringTok{"intIII.9"}\NormalTok{,}
+                              \StringTok{"intIII.10"}\NormalTok{,}\StringTok{"intIII.11"}\NormalTok{), }
+       \DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{),}
+       \DataTypeTok{names.attr=}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{),}\DataTypeTok{main=}\StringTok{""}\NormalTok{)    }
+\KeywordTok{dev.off}\NormalTok{()}
+
+\NormalTok{##  code for fitting with interaction 2}
+\NormalTok{### Type II interaction }
+\NormalTok{##Type II combines the structured temporal main effect and unstructured interactions}
+\CommentTok{#f(ID.area.int,model="iid", group=ID.year.int,control.group=list(model="ar1")) }
+\NormalTok{## interaction 2}
+\NormalTok{ID.area.int <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{Adj_ID}
+\NormalTok{ID.year.int <-}\StringTok{ }\NormalTok{admData2}\OperatorTok{$}\NormalTok{count_adm}
+\NormalTok{temporalModel2 <-}\StringTok{ }\NormalTok{cumulitive_count }\OperatorTok{~}\StringTok{  }\NormalTok{EVI_VALUE  }\OperatorTok{+}\StringTok{ }\NormalTok{gender }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{severe_disease }\OperatorTok{+}\StringTok{ }\NormalTok{total_admission }\OperatorTok{+}\StringTok{ }\NormalTok{rain_mm }\OperatorTok{+}\StringTok{ }\NormalTok{admdays }\OperatorTok{+}\StringTok{ }\NormalTok{nweight }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{(Adj_ID, }\DataTypeTok{model =} \StringTok{"bym"}\NormalTok{  ,}\DataTypeTok{graph=}\NormalTok{klf.adj , }\DataTypeTok{scale.model=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{hyper=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prec.unstruct=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.001}\NormalTok{,}\FloatTok{0.001}\NormalTok{)),}
+               \DataTypeTok{prec.spatial=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{prior=}\StringTok{"loggamma"}\NormalTok{,}\DataTypeTok{param=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.01}\NormalTok{)))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{f}\NormalTok{( count_adm, }\DataTypeTok{model =} \StringTok{"ar1"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{f}\NormalTok{(ID.area.int,}\DataTypeTok{model=}\StringTok{"iid"}\NormalTok{, }\DataTypeTok{group=}\NormalTok{ID.year.int,}\DataTypeTok{control.group=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\StringTok{"ar1"}\NormalTok{)) }
+
+
+\NormalTok{result_tM2 <-}\StringTok{ }\KeywordTok{inla}\NormalTok{(temporalModel2,}\DataTypeTok{family=}\StringTok{"nbinomial"}\NormalTok{,}
+                   \DataTypeTok{data=}\NormalTok{admData2, }\DataTypeTok{control.compute=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{dic=}\OtherTok{TRUE}\NormalTok{),}\KeywordTok{control.predictor}\NormalTok{(}\DataTypeTok{compute=}\OtherTok{TRUE}\NormalTok{) ,}
+                   \DataTypeTok{control.inla =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{tolerance =} \FloatTok{1e-20}\NormalTok{, }\DataTypeTok{h =} \FloatTok{1e-08}\NormalTok{),}\DataTypeTok{E=}\KeywordTok{log}\NormalTok{(nagem))}
+
+\NormalTok{### }
+\NormalTok{delta.intII <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{delta=}\KeywordTok{exp}\NormalTok{(result_tM2}\OperatorTok{$}\NormalTok{summary.random}\OperatorTok{$}\NormalTok{ID.area.int[,}\DecValTok{2}\NormalTok{]),}
+                          \DataTypeTok{tempC=}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{11}\NormalTok{, }\DataTypeTok{each =} \DecValTok{40}\NormalTok{) ,}\DataTypeTok{ID.area=}\NormalTok{result_tM2}\OperatorTok{$}\NormalTok{summary.random}\OperatorTok{$}\NormalTok{ID.area.int[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{delta.intII.matrix <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(delta.intII[,}\DecValTok{1}\NormalTok{], }\DecValTok{40}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(delta.intII.matrix)<-}\StringTok{ }\NormalTok{delta.intII[}\DecValTok{1}\OperatorTok{:}\DecValTok{40}\NormalTok{,}\DecValTok{3}\NormalTok{]}
+
+
+\CommentTok{# Check the absence of spatial trend for (intII)}
+\CommentTok{# cutoff.interaction <- c(-1,-0.01,0.01,1)}
+\NormalTok{cutoff.interaction <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.20}\NormalTok{, }\FloatTok{0.50}\NormalTok{,}\FloatTok{0.70}\NormalTok{, }\FloatTok{0.999}\NormalTok{ ,}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.01}\NormalTok{, }\FloatTok{1.1}\NormalTok{,}\FloatTok{1.4}\NormalTok{,}\FloatTok{1.7}\NormalTok{)}
+\NormalTok{data.klf <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{)}
+\NormalTok{delta.intII.factor <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{NAME=}\NormalTok{data.klf}\OperatorTok{$}\NormalTok{Adj_ID)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{11}\NormalTok{)\{}
+\NormalTok{  delta.factor.temp <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(delta.intII.matrix[,i],}\DataTypeTok{breaks=}\NormalTok{cutoff.interaction,}\DataTypeTok{include.lowest=}\OtherTok{TRUE}\NormalTok{) }
+\NormalTok{  delta.intII.factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(delta.intII.factor,delta.factor.temp)}
+\NormalTok{\}}
+\KeywordTok{colnames}\NormalTok{(delta.intII.factor)<-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{,}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{))}
+
+\CommentTok{# *** Code for Figure 7.5}
+\KeywordTok{attr}\NormalTok{(kilifi_sub, }\StringTok{"data"}\NormalTok{) <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(data.klf,  }\DataTypeTok{intII=}\NormalTok{delta.intII.factor)}
+\KeywordTok{trellis.par.set}\NormalTok{(}\DataTypeTok{axis.line=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{col=}\OtherTok{NA}\NormalTok{))}
+
+\KeywordTok{spplot}\NormalTok{(}\DataTypeTok{obj=}\NormalTok{kilifi_sub, }\DataTypeTok{zcol=}\KeywordTok{c}\NormalTok{(}\StringTok{"intII.1"}\NormalTok{,}\StringTok{"intII.2"}\NormalTok{,}\StringTok{"intII.3"}\NormalTok{,}
+                              \StringTok{"intII.4"}\NormalTok{, }\StringTok{"intII.5"}\NormalTok{,}\StringTok{"intII.6"}\NormalTok{,}
+                              \StringTok{"intII.7"}\NormalTok{, }\StringTok{"intII.8"}\NormalTok{,}\StringTok{"intII.9"}\NormalTok{,}
+                              \StringTok{"intII.10"}\NormalTok{,}\StringTok{"intII.11"}\NormalTok{), }
+       \DataTypeTok{col.regions=}\KeywordTok{diverge_hsv}\NormalTok{(}\DecValTok{8}\NormalTok{),}
+       \DataTypeTok{names.attr=}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{),}\DataTypeTok{main=}\StringTok{""}\NormalTok{)     }
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
